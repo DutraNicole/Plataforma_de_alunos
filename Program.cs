@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Diagnostics;
 using static Plataforma_do_Aluno.Conta;
 
 namespace Plataforma_do_Aluno
@@ -10,6 +12,10 @@ namespace Plataforma_do_Aluno
         {
             List<Conta> Listaconta = new List<Conta>();
             bool login = true;
+
+            string directoryPath = @"C:\Users\Alunos\source\repos\Plataforma de Alunos\Plataforma de Alunos";
+            string fileName = "Contas.txt";
+            string filePath = Path.Combine(directoryPath, fileName);
 
             while (true)
             {
@@ -48,6 +54,18 @@ namespace Plataforma_do_Aluno
 
                         Conta conta = new Conta(Email, Nome, Senha);
                         Listaconta.Add(conta);
+
+                        try
+                        {
+                            using (StreamWriter writer = new StreamWriter(filePath, true))
+                            {
+                                writer.WriteLine($"{Email},{Nome},{Senha}");
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("Um erro ocorreu : " + ex.Message);
+                        }
 
                     }
                     else
